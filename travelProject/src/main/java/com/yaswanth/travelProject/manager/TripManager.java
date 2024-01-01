@@ -17,6 +17,15 @@ import java.util.Map;
 public class TripManager {
 
     Map<String, Trip> tripMap = new HashMap<>();
+
+    DestinationManager destinationManager;
+    TripPassengerMgr passengerMgr;
+
+    public TripManager(TripPassengerMgr passengerMgr, DestinationManager destinationManager) {
+        this.destinationManager = destinationManager;
+        this.passengerMgr = passengerMgr;
+    }
+
     public void createTrip(String id, String name, Integer capacity, List<Destination> destinationList) {
         if (tripMap.containsKey(id))
         {
@@ -34,11 +43,13 @@ public class TripManager {
         tripMap.put(id, new Trip(name, capacity));
     }
 
-    public void addDestinationToTrip(String id, Destination destination) {
-        if (!tripMap.containsKey(id)) {
+    public void addDestinationToTrip(String tripId, String destinationId) {
+        if (!tripMap.containsKey(tripId)) {
             throw new TripNotFoundException();
         }
-        Trip trip = tripMap.get(id);
+
+        Trip trip = tripMap.get(tripId);
+        Destination destination = destinationManager.getDestination(destinationId);
 
         List<Destination> destinationList = trip.getDestinationList();
 
@@ -48,21 +59,22 @@ public class TripManager {
         destinationList.add(destination);
         trip.setDestinationList(destinationList);
 
-        tripMap.put(id, trip);
+        tripMap.put(tripId, trip);
     }
 
-    public Boolean addPassengerToTrip(String id, Passenger passenger) {
+    public Boolean addPassengerToTrip(String tripId, String passengerId) {
 
-        if (tripMap.containsKey(id))
+        if (!tripMap.containsKey(tripId))
         {
-            throw new TripAlreadyExistException();
+            throw new TripNotFoundException();
         }
 
-        Trip trip = tripMap.get(id);
+        Trip trip = tripMap.get(tripId);
         if (trip.isFull())
         {
             throw new TripCapacityFullException();
         }
+        Passenger passenger = passengerMgr.getPassenger(passengerId);
 
         List<Passenger> passengerList = trip.getPassengerList();
         if (passengerList.contains(passenger)) {
@@ -73,7 +85,7 @@ public class TripManager {
         trip.setCurrentCapacity(trip.getCurrentCapacity()+1);
         trip.setPassengerList(passengerList);
 
-        tripMap.put(id, trip);
+        tripMap.put(tripId, trip);
         return Boolean.TRUE;
     }
 

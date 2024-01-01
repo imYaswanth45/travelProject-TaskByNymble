@@ -40,12 +40,12 @@ public class DestinationManager {
         destinationMap.put(id, new Destination(name));
     }
 
-    public void getDestination(String id) {
+    public Destination getDestination(String id) {
         if (!destinationMap.containsKey(id))
         {
             throw new DestinationNotFoundException();
         }
-        destinationMap.get(id);
+        return destinationMap.get(id);
     }
 
     public void addActivityToDestination(String destinationId, String activityId) {

@@ -21,13 +21,25 @@ public class DestinationController {
         return ResponseEntity.ok("");
     }
 
+    @RequestMapping(value = "/destination", method = RequestMethod.GET)
+    public ResponseEntity getDestination(String id) {
+        destinationManager.getDestination(id);
+        return ResponseEntity.ok("");
+    }
+
     @RequestMapping(value = "/destination/activity", method = RequestMethod.POST)
     public ResponseEntity createActivity(String id, String name, String description, Integer capacity, Double cost) {
         destinationManager.createActivity(id,name,description,capacity,cost);
         return ResponseEntity.ok("");
     }
 
-    @RequestMapping(value = "/destination/activity", method = RequestMethod.PUT)
+    @RequestMapping(value = "/destination/activity", method = RequestMethod.GET)
+    public ResponseEntity getActivity(String id) {
+        destinationManager.getDestination(id);
+        return ResponseEntity.ok("");
+    }
+
+    @RequestMapping(value = "/destination/activity/activity", method = RequestMethod.PUT)
     public ResponseEntity addActivityToDestination(String destinationId, String activityId) {
         destinationManager.addActivityToDestination(destinationId, activityId);
         return ResponseEntity.ok("");

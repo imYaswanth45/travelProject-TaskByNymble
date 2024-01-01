@@ -32,14 +32,14 @@ public class TripMgrController {
     }
 
     @RequestMapping(value = "/trip", method = RequestMethod.PUT)
-    public ResponseEntity updateTrip(String id, Destination destination) {
-        tripManager.addDestinationToTrip(id, destination);
+    public ResponseEntity updateTrip(String tripId, String destinationId) {
+        tripManager.addDestinationToTrip(tripId, destinationId);
         return ResponseEntity.ok("");
     }
 
     @RequestMapping(value = "/trip/passenger", method = RequestMethod.PUT)
-    public ResponseEntity addPassenger(String id, Passenger passenger) {
-        tripManager.addPassengerToTrip(id, passenger);
+    public ResponseEntity addPassenger(String tripId, String passengerId) {
+        tripManager.addPassengerToTrip(tripId, passengerId);
         return ResponseEntity.ok("");
     }
 
